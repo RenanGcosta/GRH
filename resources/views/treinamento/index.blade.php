@@ -14,7 +14,7 @@
             class="bi bi-file-earmark-person"></i></a>
     <form action="" method="get" class="mb-3 d-flex justify-content-end">
         <div class="input-group me-3">
-            <input type="text" name="buscaTreinamento" class="form-control form-control-lg" placeholder="Exemplo: ASO">
+            <input type="text" name="buscaTreinamento" class="form-control form-control-lg" placeholder="Exemplo: NR10">
             <button class="btn btn-primary" type="submit">Procurar</button>
         </div>
         <a href="{{ route('treinamento.index') }}" class="btn btn-danger border ">Limpar</a>

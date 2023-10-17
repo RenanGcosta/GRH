@@ -22,11 +22,13 @@
                             value="{{ $dadosTreinamento->treinamento }}">
                     </div>
                 </div>
-                <div class="col-2 mt-4">
+                <div class="col-2">
                     <div>
                         <label for="ativo" class="form-label">Ativo</label>
-                        <input type="checkbox" name="ativo" class="form-check-input"
-                            @if($dadosTreinamento->ativo === 'Sim') checked @endif>
+                        <select name="ativo" class="form-select form-select-lg bg-light">
+                            <option value="Sim" @if($dadosTreinamento->ativo === 'Sim') selected @endif>Sim</option>
+                            <option value="Não" @if($dadosTreinamento->ativo === 'Não') selected @endif>Não</option>
+                        </select>
                     </div>
                 </div> 
             </div>

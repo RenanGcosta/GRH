@@ -11,15 +11,17 @@
                 <div class="col-10">
                     <div>
                         <label for="exame" class="form-label">Nome do Exame</label>
-                        <input type="text" name="exame" class="form-control form-control-lg bg-light"
-                            value="">
+                        <input type="text" name="exame" class="form-control form-control-lg bg-light" required>
                     </div>
                 </div>
-                <div class="col-2 mt-4">
+                <div class="col-2">
                     <div>
                         <label for="ativo" class="form-label">Ativo</label>
-                        <input type="checkbox" name="ativo" class="form-check-input"
-                            value="Sim">
+                        <select name="ativo" class="form-select form-select-lg bg-light" required>
+                            <option value=""></option>
+                            <option value="Sim">Sim</option>
+                            <option value="Não">Não</option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -27,14 +29,13 @@
                 <div class="col-6">
                     <div>
                         <label for="duracao" class="form-label">Duração</label>
-                        <input type="number" name="duracao" class="form-control form-control-lg bg-light"
-                            value="">
+                        <input type="number" name="duracao" class="form-control form-control-lg bg-light" required>
                     </div>
                 </div>
                 <div class="col-6">
                     <div>
                         <label for="tipo_periodo" class="form-label">Tipo de Período</label>
-                        <select name="tipo_periodo" class="form-select form-select-lg bg-light">
+                        <select name="tipo_periodo" class="form-select form-select-lg bg-light" required>
                             <option value="anos">Anos</option>
                             <option value="meses">Meses</option>
                         </select>

@@ -21,7 +21,7 @@ class ExameController extends Controller
     public function store(Request $request)
     {
         $input = $request->toArray();
-        $input['ativo'] = isset($input['ativo']) ? 'Sim' : 'Não';
+       // $input['ativo'] = isset($input['ativo']) ? 'Sim' : 'Não';
         Exame::create($input);
         return redirect()->route('exame.index')->with('sucesso', 'Exame Cadastrado com sucesso');
     }
@@ -43,7 +43,7 @@ class ExameController extends Controller
 
     public function update(Request $request, $id){
         $input = $request->toArray();
-        $input['ativo'] = isset($input['ativo']) ? 'Sim' : 'Não';
+       // $input['ativo'] = isset($input['ativo']) ? 'Sim' : 'Não';
         $exame = Exame::find($id);
         $exame->fill($input);
         $exame->save();

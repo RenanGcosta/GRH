@@ -22,7 +22,7 @@ class TreinamentoController extends Controller
     public function store(Request $request)
     {
         $input = $request->all();
-        $input['ativo'] = $request->has('ativo') ? 'Sim' : 'Não';
+        //$input['ativo'] = $request->has('ativo') ? 'Sim' : 'Não';
         Treinamento::create($input);
         return redirect()->route('treinamento.index')->with('sucesso', 'Treinamento Cadastrado com sucesso');
     }
@@ -44,7 +44,7 @@ class TreinamentoController extends Controller
 
     public function update(Request $request, $id){
         $input = $request->all();
-        $input['ativo'] = $request->has('ativo') ? 'Sim' : 'Não';
+       // $input['ativo'] = $request->has('ativo') ? 'Sim' : 'Não';
         $treinamento = Treinamento::find($id);
         $treinamento->fill($input);
         $treinamento->save();

@@ -16,7 +16,7 @@ class DepartamentoController extends Controller
     public function store(Request $request)
     {
         $input = $request->toArray();
-        $input['ativo'] = isset($input['ativo']) ? 'Sim' : 'Não';
+       // $input['ativo'] = isset($input['ativo']) ? 'Sim' : 'Não';
         Departamento::create($input);
         return redirect()->route('departamento.index')->with('sucesso', 'Departamento Cadastrado com sucesso');
     }
@@ -34,7 +34,7 @@ class DepartamentoController extends Controller
 
     public function update(Request $request, $id){
         $input = $request->toArray();
-        $input['ativo'] = isset($input['ativo']) ? 'Sim' : 'Não';
+       // $input['ativo'] = isset($input['ativo']) ? 'Sim' : 'Não';
         $departamento = Departamento::find($id);
         $departamento->fill($input);
         $departamento->save();
