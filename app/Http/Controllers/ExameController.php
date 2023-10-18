@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Exame;
 use App\Models\FuncionarioExame;
 use Illuminate\Http\Request;
+use App\Models\Funcionario;
+use Carbon\Carbon;
 
 class ExameController extends Controller
 {
@@ -48,5 +50,49 @@ class ExameController extends Controller
         $exame->fill($input);
         $exame->save();
         return redirect()->route('exame.index')->with('sucesso','Exame alterado com sucesso.');
+    }
+
+
+    ////////////////////////////
+    public function verificarExamesFuncionario($idFuncionario)
+    {
+        $funcionario = Funcionario::find($idFuncionario);
+
+        if (!$funcionario) {
+            return response()->json(['error' => 'Funcionário não encontrado'], 404);
+        }
+
+        // Encontre os exames associados a esse funcionário
+        $examesAssociados = $funcionario->exames;
+
+        // Criar um array para armazenar as informações do exame e a data de vencimento
+        $examesInfo = [];
+
+        foreach ($examesAssociados as $exame) {
+            // Calcule a data de vencimento para cada exame
+            $dataValidade = $this->calcularDataValidade($exame->duracao, $exame->tipo_periodo);
+
+            // Armazene informações relevantes do exame e a data de vencimento
+            $examesInfo[] = [
+                'exame' => $exame->exame,
+                'data_validade' => $dataValidade,
+            ];
+        }
+
+        return response()->json(['exames' => $examesInfo]);
+    }
+
+    // Função para calcular a data de validade
+    private function calcularDataValidade($duracao, $tipoPeriodo)
+    {
+        $dataAtual = Carbon::now();
+
+        if ($tipoPeriodo === 'ano(s)') {
+            $dataValidade = $dataAtual->addYears($duracao);
+        } elseif ($tipoPeriodo === 'mês(es)') {
+            $dataValidade = $dataAtual->addMonths($duracao);
+        }
+
+        return $dataValidade;
     }
 }

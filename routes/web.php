@@ -84,3 +84,9 @@ Route::get('/funcTreinamento', [FuncTreinamentoController::class, 'index'])->nam
 Route::get('/funcTreinamento/edit/{id}', [FuncTreinamentoController::class,'edit'])->name('funcTreinamento.edit');
 Route::put('/funcTreinamento/{id}', [FuncTreinamentoController::class,'update'])->name('funcTreinamento.update');
 Route::delete('/funcTreinamento/{id}', [FuncTreinamentoController::class, 'destroy'])->name('funcTreinamento.destroy');
+
+
+Route::get('/verificar-exames/{idFuncionario}', [ExameController::class, 'verificarExamesFuncionario']);
+//Route::get('/verificar-exames/{idFuncionario}', 'ExameController@verificarExamesFuncionario');
+
+//Route::get('/verificar-exames/{idFuncionario}', 'ExameController@verificarExamesFuncionario');
