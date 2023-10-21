@@ -36,12 +36,14 @@
                         <tr class="text-center">
                             <td>
                                 <div class="form-check">
-                                    <input type="checkbox" name="exames[]" value="{{ $exame->id }}" class="form-check-input">
+                                    <input type="checkbox" name="exames[]" value="{{ $exame->id }}"
+                                        class="form-check-input">
                                     <label class="form-check-label">{{ $exame->exame }}</label>
                                 </div>
                             </td>
                             <td>
-                                <input name="anotacao{{ $exame->id }}" class="form-control" placeholder="Anotação" disabled>
+                                <input name="anotacao{{ $exame->id }}" class="form-control" placeholder="Anotação"
+                                    disabled>
                             </td>
                             <td>
                                 <p>Duração: {{ $exame->duracao }} {{ $exame->tipo_periodo }}</p>
@@ -72,46 +74,70 @@
             });
         });
     </script>
-<script>
-$(document).ready(function() {
-    $('#id_funcionario').change(function() {
-        const idFuncionario = $(this).val();
-        const examesInfoDiv = $('#exames_info'); // Seleciona a div
 
-        // Verifique se o valor selecionado não está vazio
-        if (idFuncionario !== '') {
-            // Faça a solicitação AJAX para verificar os exames do funcionário
-            $.ajax({
-                url: '/verificar-exames/' + idFuncionario, // Use a rota correta no Laravel
-                method: 'GET',
-                success: function(response) {
-                    if (response.error) {
-                        alert('Nenhum funcionário selecionado.');
-                    } else {
-                        // Exames encontrados, preencha as informações
-                        if (response.exames.length > 0) {
-                            let html = '<ul>';
-                            response.exames.forEach(function(exameInfo) {
-                                html += '<li>' + exameInfo.exame + ' - Data de Vencimento: ' + exameInfo.data_validade + '</li>';
+    <script>
+        $(document).ready(function() {
+            $('#id_funcionario').change(function() {
+                const idFuncionario = $(this).val();
+                const examesInfoDiv = $('#exames_info');
+                const checkboxes = $('input[name="exames[]"]');
+
+                checkboxes.prop('checked', false);
+
+                if (idFuncionario !== '') {
+                    $.ajax({
+                        url: '/verificar-exames/' + idFuncionario,
+                        method: 'GET',
+                        success: function(response) {
+                            if (response.error) {
+                                Swal.fire({
+                                    icon: 'warning',
+                                    title: 'Nenhum funcionário selecionado',
+                                    text: 'Por favor, selecione um funcionário para verificar os exames.'
+                                });
+                            } else {
+                                if (response.exames.length > 0) {
+                                    let html = '<ul>';
+                                    response.exames.forEach(function(exameInfo) {
+                                        const dataValidade = new Date(exameInfo
+                                            .data_validade);
+                                        const formattedDataValidade = dataValidade
+                                            .toLocaleDateString('pt-BR');
+                                        html += '<li>' + exameInfo.exame +
+                                            ' - Vence em: ' + formattedDataValidade +
+                                            '</li>';
+                                        // const checkbox = $(
+                                        //     'input[name="exames[]"][value="' +
+                                        //     exameInfo.id_exame + '"]');
+                                        // if (checkbox.length) {
+                                        //     checkbox.prop('checked', true);
+                                        //}
+                                    });
+                                    html += '</ul>';
+
+                                    examesInfoDiv.html(html);
+                                } else {
+                                    examesInfoDiv.html('');
+                                    Swal.fire({
+                                        icon: 'info',
+                                        title: 'Nenhum exame encontrado',
+                                        text: 'Nenhum exame encontrado para este funcionário.'
+                                    });
+                                }
+                            }
+                        },
+                        error: function(error) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Erro',
+                                text: 'Erro ao verificar exames: ' + error
                             });
-                            html += '</ul>';
-
-                            examesInfoDiv.html(html); // Preencha a div com as informações
-                        } else {
-                            examesInfoDiv.html(''); // Define o conteúdo da div como vazio (nulo)
-                            alert('Nenhum exame encontrado para este funcionário.');
                         }
-                    }
-                },
-                error: function(error) {
-                    alert('Erro ao verificar exames: ' + error);
+                    });
+                } else {
+                    examesInfoDiv.html('');
                 }
             });
-        } else {
-            examesInfoDiv.html(''); // Define o conteúdo da div como vazio (nulo)
-        }
-    });
-});
-
-</script>
+        });
+    </script>
 @endsection

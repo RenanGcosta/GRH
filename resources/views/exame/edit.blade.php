@@ -42,8 +42,8 @@
                 <div class="col-6">
                     <label for="tipo_periodo" class="form-label">Tipo de Período</label>
                     <select name="tipo_periodo" class="form-select form-select-lg bg-light">
-                        <option value="anos" {{ $dadosExame->tipo_periodo === 'anos' ? 'selected' : '' }}>Anos</option>
-                        <option value="meses" {{ $dadosExame->tipo_periodo === 'meses' ? 'selected' : '' }}>Meses</option>
+                        <option value="ano(s)" {{ $dadosExame->tipo_periodo === 'anos' ? 'selected' : '' }}>Anos</option>
+                        <option value="mês(es)" {{ $dadosExame->tipo_periodo === 'meses' ? 'selected' : '' }}>Meses</option>
                     </select>
                 </div>
             </div>
