@@ -160,6 +160,28 @@
                     statusCell.text('');
                 }
             });
+            $('table#exames-table').on('change', 'input[name="exames[]"]', function() {
+                const exameId = $(this).val();
+                const anotacaoInput = $(this).closest('tr').find('input[name="anotacao' + exameId +
+                    '"]');
+                if ($(this).prop('checked')) {
+                    const idFuncionario = $('#id_funcionario').val();
+                    $.ajax({
+                        url: '/verificar-exame-anotacao/' + idFuncionario + '/' +
+                            exameId,
+                        method: 'GET',
+                        success: function(anotacaoResponse) {
+                            anotacaoInput.val(anotacaoResponse.anotacao ||
+                                '');
+                        },
+                        error: function(error) {
+                            console.error(error);
+                        }
+                    });
+                } else {
+                    anotacaoInput.val('');
+                }
+            });
         });
     </script>
 @endsection

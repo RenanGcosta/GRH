@@ -96,4 +96,14 @@ class FuncExameController extends Controller
 
         return response()->json(['existe' => $exame !== null]);
     }
+
+    public function verificarAnotacaoExame($idFuncionario, $exameId)
+    {
+        $anotacao = DB::table('func_x_exame')
+            ->where('id_funcionario', $idFuncionario)
+            ->where('id_exame', $exameId)
+            ->value('anotacao');
+
+        return response()->json(['anotacao' => $anotacao]);
+    }
 }
