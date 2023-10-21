@@ -37,7 +37,7 @@
                         <label for="tipo_periodo" class="form-label">Tipo de Período</label>
                         <select name="tipo_periodo" class="form-select form-select-lg bg-light">
                             <option value="anos">Anos</option>
-                            <option value="meses">Meses</option>
+                            <option value="mês(es)">Meses</option>
                         </select>
                     </div>
                 </div>

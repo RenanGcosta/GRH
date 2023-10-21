@@ -73,7 +73,7 @@ class FuncExameController extends Controller
             }
         }
 
-        return redirect()->route('funcExame.create')->with('sucesso', 'Exame(s) inserido(s) com sucesso para ' . $funcionario->nome . '. Clique em (Listar Todos) para visualizar.');
+        return redirect()->route('funcExame.create')->with('sucesso', 'Dados Atualizados com Sucesso para ' . $funcionario->nome . '. Clique em (Listar Todos) para visualizar.');
     }
 
 
@@ -86,5 +86,14 @@ class FuncExameController extends Controller
             ->get();
 
         return response()->json(['exames' => $exames]);
+    }
+    public function verificarStatusExame($idFuncionario, $idExame)
+    {
+        $exame = DB::table('func_x_exame')
+            ->where('id_funcionario', $idFuncionario)
+            ->where('id_exame', $idExame)
+            ->first();
+
+        return response()->json(['existe' => $exame !== null]);
     }
 }

@@ -22,11 +22,12 @@
                 </select>
             </div>
             <div id="exames_info"></div>
-            <table class="table table-striped">
+            <table class="table table-striped" id="exames-table">
                 <!-- Cabeçalho da tabela -->
                 <thead class="table-dark">
                     <tr class="text-center">
                         <th>Exame</th>
+                        <th>Status</th>
                         <th>Anotação</th>
                         <th>Duração</th>
                     </tr>
@@ -40,6 +41,9 @@
                                         class="form-check-input">
                                     <label class="form-check-label">{{ $exame->exame }}</label>
                                 </div>
+                            </td>
+                            <td id="status">
+                                <p id="desc"></p>
                             </td>
                             <td>
                                 <input name="anotacao{{ $exame->id }}" class="form-control" placeholder="Anotação"
@@ -74,16 +78,16 @@
             });
         });
     </script>
-
     <script>
         $(document).ready(function() {
             $('#id_funcionario').change(function() {
                 const idFuncionario = $(this).val();
                 const examesInfoDiv = $('#exames_info');
                 const checkboxes = $('input[name="exames[]"]');
-
+                const statusCells = $('td#status p');
                 checkboxes.prop('checked', false);
 
+                statusCells.text('');
                 if (idFuncionario !== '') {
                     $.ajax({
                         url: '/verificar-exames/' + idFuncionario,
@@ -97,7 +101,8 @@
                                 });
                             } else {
                                 if (response.exames.length > 0) {
-                                    let html = '<ul>';
+                                    let html =
+                                        '<h3>Exames Existentes para o Funcionário:</h3><ul>';
                                     response.exames.forEach(function(exameInfo) {
                                         const dataValidade = new Date(exameInfo
                                             .data_validade);
@@ -106,12 +111,6 @@
                                         html += '<li>' + exameInfo.exame +
                                             ' - Vence em: ' + formattedDataValidade +
                                             '</li>';
-                                        // const checkbox = $(
-                                        //     'input[name="exames[]"][value="' +
-                                        //     exameInfo.id_exame + '"]');
-                                        // if (checkbox.length) {
-                                        //     checkbox.prop('checked', true);
-                                        //}
                                     });
                                     html += '</ul>';
 
@@ -136,6 +135,29 @@
                     });
                 } else {
                     examesInfoDiv.html('');
+                }
+            });
+            $('table#exames-table').on('change', 'input[name="exames[]"]', function() {
+                const exameId = $(this).val();
+                const statusCell = $(this).closest('tr').find('td#status p');
+                if ($(this).prop('checked')) {
+                    const idFuncionario = $('#id_funcionario').val();
+                    $.ajax({
+                        url: '/verificar-status-exame/' + idFuncionario + '/' + exameId,
+                        method: 'GET',
+                        success: function(statusResponse) {
+                            if (statusResponse.existe) {
+                                statusCell.text('Atualização');
+                            } else {
+                                statusCell.text('Novo');
+                            }
+                        },
+                        error: function(error) {
+                            console.error(error);
+                        }
+                    });
+                } else {
+                    statusCell.text('');
                 }
             });
         });
