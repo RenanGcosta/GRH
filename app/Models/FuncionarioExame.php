@@ -34,4 +34,5 @@ class FuncionarioExame extends Model
     {
         return $this->belongsTo(Funcionario::class, 'id_funcionario');
     }
+    
 }

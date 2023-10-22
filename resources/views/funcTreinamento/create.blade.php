@@ -27,7 +27,7 @@
                 <thead class="table-dark">
                     <tr class="text-center">
                         <th>Treinamento</th>
-                        <th>Status</th>
+                        <th id="status_column">Status</th>
                         <th>Anotação</th>
                         <th>Duração</th>
                     </tr>
@@ -42,7 +42,7 @@
                                     <label class="form-check-label">{{ $treinamento->treinamento }}</label>
                                 </div>
                             </td>
-                            <td id="status">
+                            <td id="status_line">
                                 <p id="desc"></p>
                             </td>
                             <td>
@@ -64,32 +64,18 @@
         </form>
     </div>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const checkboxes = document.querySelectorAll('.form-check-input');
-            checkboxes.forEach(function(checkbox) {
-                checkbox.addEventListener('change', function() {
-                    const anotacaoInput = this.closest('tr').querySelector('.form-control');
-                    if (this.checked) {
-                        anotacaoInput.removeAttribute('disabled');
-                    } else {
-                        anotacaoInput.setAttribute('disabled', 'disabled');
-                        anotacaoInput.value = '';
-                    }
-                });
-            });
-        });
-    </script>
-    <script>
         $(document).ready(function() {
+
             $('#id_funcionario').change(function() {
                 const idFuncionario = $(this).val();
                 const treinamentosInfoDiv = $('#treinamentos_info');
                 const checkboxes = $('input[name="treinamentos[]"]');
                 const statusCells = $('td#status p');
-
+    
                 checkboxes.prop('checked', false);
                 statusCells.text('');
-
+                $('input[name^="anotacao"]').val('').prop('disabled', true);
+    
                 if (idFuncionario !== '') {
                     $.ajax({
                         url: '/verificar-treinamentos/' + idFuncionario,
@@ -106,16 +92,13 @@
                                     let html =
                                         '<h3>Treinamentos Existentes para o Funcionário:</h3><ul>';
                                     response.treinamentos.forEach(function(treinamentoInfo) {
-                                        const dataValidade = new Date(treinamentoInfo
-                                            .data_validade);
-                                        const formattedDataValidade = dataValidade
-                                            .toLocaleDateString('pt-BR');
+                                        const dataValidade = new Date(treinamentoInfo.data_validade);
+                                        const formattedDataValidade = dataValidade.toLocaleDateString('pt-BR');
                                         html += '<li>' + treinamentoInfo.treinamento +
-                                            ' - Vence em: ' + formattedDataValidade +
-                                            '</li>';
+                                            ' - Vence em: ' + formattedDataValidade + '</li>';
                                     });
                                     html += '</ul>';
-
+    
                                     treinamentosInfoDiv.html(html);
                                 } else {
                                     treinamentosInfoDiv.html('');
@@ -139,50 +122,13 @@
                     treinamentosInfoDiv.html('');
                 }
             });
-
-            $('table#treinamentos-table').on('change', 'input[name="treinamentos[]"]', function() {
-                const treinamentoId = $(this).val();
-                const statusCell = $(this).closest('tr').find('td#status p');
-                if ($(this).prop('checked')) {
-                    const idFuncionario = $('#id_funcionario').val();
-                    $.ajax({
-                        url: '/verificar-status-treinamento/' + idFuncionario + '/' + treinamentoId,
-                        method: 'GET',
-                        success: function(statusResponse) {
-                            if (statusResponse.existe) {
-                                statusCell.text('Atualização');
-                            } else {
-                                statusCell.text('Novo');
-                            }
-                        },
-                        error: function(error) {
-                            console.error(error);
-                        }
-                    });
-                } else {
-                    statusCell.text('');
-                }
-            });
-            $('table#treinamentos-table').on('change', 'input[name="treinamentos[]"]', function() {
-                const treinamentoId = $(this).val();
-                const anotacaoInput = $(this).closest('tr').find('input[name="anotacao' + treinamentoId +
-                    '"]');
-                if ($(this).prop('checked')) {
-                    const idFuncionario = $('#id_funcionario').val();
-                    $.ajax({
-                        url: '/verificar-treinamento-anotacao/' + idFuncionario + '/' +
-                            treinamentoId,
-                        method: 'GET',
-                        success: function(anotacaoResponse) {
-                            anotacaoInput.val(anotacaoResponse.anotacao ||
-                                '');
-                        },
-                        error: function(error) {
-                            console.error(error);
-                        }
-                    });
-                } else {
-                    anotacaoInput.val('');
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#id_funcionario').change(function() {
+                if ($('.alert').is(':visible')) {
+                    $('.alert').hide();
                 }
             });
         });

@@ -88,8 +88,8 @@ Route::delete('/funcTreinamento/{id}', [FuncTreinamentoController::class, 'destr
 
 Route::get('/verificar-exames/{idFuncionario}', [FuncExameController::class, 'verificarExamesFuncionario']);
 Route::get('/verificar-status-exame/{idFuncionario}/{idExame}', [FuncExameController::class, 'verificarStatusExame']);
-Route::get('/verificar-exame-anotacao/{idFuncionario}/{treinamentoId}', [FuncExameController::class, 'verificarAnotacaoExame']);
+Route::get('/verificar-exame-anotacao/{idFuncionario}/{idExame}', [FuncExameController::class, 'verificarAnotacaoExame']);
+
 
 Route::get('/verificar-treinamentos/{idFuncionario}', [FuncTreinamentoController::class, 'verificarTreinamentosFuncionario']);
 Route::get('/verificar-status-treinamento/{idFuncionario}/{treinamentoId}', [FuncTreinamentoController::class, 'verificarStatusTreinamento']);
-Route::get('/verificar-treinamento-anotacao/{idFuncionario}/{treinamentoId}', [FuncTreinamentoController::class, 'verificarAnotacaoTreinamento']);
