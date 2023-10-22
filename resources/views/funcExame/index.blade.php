@@ -26,28 +26,25 @@
         </thead>
         <tbody>
             @foreach ($FuncExames as $funcExame)
-            <tr class="text-center">
-                <td class="align-middle">{{ $funcExame->idExame->exame }}</td>
-                <td class="align-middle">{{ $funcExame->idFuncionario->nome }}</td>
-                <td class="align-middle">{{ \Carbon\Carbon::parse($funcExame->data_validade)->format('d-m-Y') }}</td>
-                <td class="align-middle">
-                    <div class="row">
-                        <div class="col">
-                            <a href="{{ route('funcExame.edit', $funcExame->idFuncionario) }}" class="btn btn-danger"
-                                title="Editar"><i class="bi bi-pen">Editar</i></a>
+                <tr class="text-center">
+                    <td class="align-middle">{{ $funcExame->idExame->exame }}</td>
+                    <td class="align-middle">{{ $funcExame->idFuncionario->nome }}</td>
+                    <td class="align-middle">{{ \Carbon\Carbon::parse($funcExame->data_validade)->format('d-m-Y') }}</td>
+                    <td class="align-middle">
+                        <div class="row">
+                            <div class="col">
+                                <a href="{{ route('funcExame.edit', ['idFuncionario' => $funcExame->idFuncionario, 'idExame' => $funcExame->idExame]) }}"
+                                    class="btn btn-danger" title="Editar"><i class="bi bi-pen">Editar</i></a>
+                            </div>
+                            <div class="col">
+                                <a href="" class="btn btn-danger" title="Excluir" data-bs-toggle="modal"
+                                    data-bs-target="#modal-deletar-"><i class="bi bi-trash">Excluir</i></a>
+                                {{-- @include('funcionario.delete') --}}
+                            </div>
                         </div>
-                        <div class="col">
-                            <a href="" class="btn btn-danger" title="Excluir" data-bs-toggle="modal"
-                                data-bs-target="#modal-deletar-"><i
-                                class="bi bi-trash">Excluir</i></a>
-                            {{-- @include('funcionario.delete') --}}
-                        </div>
-                    </div>
-                </td>
-            </tr>
-        @endforeach
-        
+                    </td>
+                </tr>
+            @endforeach
         </tbody>
     </table>
-    
 @endsection

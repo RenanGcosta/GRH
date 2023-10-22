@@ -74,7 +74,7 @@ Route::delete('/treinamento/{id}', [TreinamentoController::class, 'destroy'])->n
 Route::get('/funcExame/create', [FuncExameController::class, 'create'])->name('funcExame.create');
 Route::post('/funcExame', [FuncExameController::class, 'store'])->name('funcExame.store');
 Route::get('/funcExame', [FuncExameController::class, 'index'])->name('funcExame.index');
-Route::get('/funcExame/edit/{id}', [FuncExameController::class,'edit'])->name('funcExame.edit');
+Route::get('/funcExame/edit/{idFuncionario}/{idExame}', [FuncExameController::class,'edit'])->name('funcExame.edit');
 Route::put('/funcExame/{id}', [FuncExameController::class,'update'])->name('funcExame.update');
 Route::delete('/funcExame/{id}', [FuncExameController::class, 'destroy'])->name('funcExame.destroy');
 /*-------------------------------------------------------------------------------------------*/
@@ -85,11 +85,10 @@ Route::get('/funcTreinamento/edit/{id}', [FuncTreinamentoController::class,'edit
 Route::put('/funcTreinamento/{id}', [FuncTreinamentoController::class,'update'])->name('funcTreinamento.update');
 Route::delete('/funcTreinamento/{id}', [FuncTreinamentoController::class, 'destroy'])->name('funcTreinamento.destroy');
 
-
+//AJAX
 Route::get('/verificar-exames/{idFuncionario}', [FuncExameController::class, 'verificarExamesFuncionario']);
-Route::get('/verificar-status-exame/{idFuncionario}/{idExame}', [FuncExameController::class, 'verificarStatusExame']);
-Route::get('/verificar-exame-anotacao/{idFuncionario}/{idExame}', [FuncExameController::class, 'verificarAnotacaoExame']);
-
-
+Route::get('/obter-dados-funcExame/{idFuncionario}/{idExame}', [FuncExameController::class, 'verificarAnotacaoExame']);
+Route::get('/data-validade-exame/{idExame}', [ExameController::class, 'calcularDataValidade']);
+/*-------------------------------------------------------------------------------------------------------------------------------------*/
 Route::get('/verificar-treinamentos/{idFuncionario}', [FuncTreinamentoController::class, 'verificarTreinamentosFuncionario']);
 Route::get('/verificar-status-treinamento/{idFuncionario}/{treinamentoId}', [FuncTreinamentoController::class, 'verificarStatusTreinamento']);

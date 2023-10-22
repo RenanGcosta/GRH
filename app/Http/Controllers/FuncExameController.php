@@ -18,13 +18,20 @@ class FuncExameController extends Controller
         $exames = Exame::where('ativo', 'Sim')->get();
         return view('funcExame.create', compact('funcionarios', 'exames'));
     }
-
-    public function edit($id)
+    
+    public function edit($idFuncionario, $idExame)
     {
-        $funcionarios = Funcionario::find($id);
-        $exames = Exame::where('ativo', 'Sim')->get();
-        return view('funcExame.edit', compact('funcionarios', 'exames'));
+        $funcExame = DB::table('func_x_exame')
+            ->where('id_funcionario', $idFuncionario)
+            ->where('id_exame', $idExame)
+            ->first();
+        $exame = Exame::where('id', $idExame)->first();
+        $funcionario = Funcionario::find($idFuncionario);
+
+        return view('funcExame.edit', compact('funcionario', 'exame', 'funcExame'));
     }
+
+
 
     private function calcularDataValidade($duracao, $tipoPeriodo)
     {
@@ -46,25 +53,21 @@ class FuncExameController extends Controller
         $funcionario = Funcionario::find($request->input('id_funcionario'));
         $examesSelecionados = $request->input('exames', []);
         $id_user = auth()->user()->id;
-    
+
         $algumExameSelecionado = !empty($examesSelecionados);
         if (!$algumExameSelecionado) {
-            if ($request->input('form') === 'create') {
-                return redirect()->route('funcExame.create')->with('erro', 'Nenhum exame foi selecionado para ' . $funcionario->nome . '.');
-            } elseif ($request->input('form') === 'edit') {
-                return redirect()->route('funcExame.edit', $funcionario->id)->with('erro', 'Nenhum exame foi selecionado para ' . $funcionario->nome . '.');
-            }
+            return redirect()->route('funcExame.create')->with('erro', 'Nenhum exame foi selecionado para ' . $funcionario->nome . '.');
         }
-    
+
         foreach ($examesSelecionados as $id_exame) {
             $exame = Exame::find($id_exame);
             $dataValidade = $this->calcularDataValidade($exame->duracao, $exame->tipo_periodo);
-    
+
             $existingRecord = DB::table('func_x_exame')
                 ->where('id_funcionario', $funcionario->id)
                 ->where('id_exame', $id_exame)
                 ->first();
-    
+
             if ($existingRecord) {
                 DB::table('func_x_exame')
                     ->where('id_funcionario', $funcionario->id)
@@ -85,13 +88,7 @@ class FuncExameController extends Controller
                 DB::table('func_x_exame')->insert($data);
             }
         }
-    
-        $redirectRoute = $request->input('form') === 'edit' ? 'funcExame.index' : 'funcExame.create';
-        if ($request->input('form') === 'edit' && empty($examesSelecionados)) {
-            return redirect()->route('funcExame.edit', $funcionario->id)->with('erro', 'Nenhum exame foi selecionado para ' . $funcionario->nome . '.');
-        }
-    
-        return redirect()->route($redirectRoute)->with('sucesso', 'Dados Atualizados com Sucesso para ' . $funcionario->nome . '. Clique em (Listar Todos) para visualizar.');
+        return redirect()->route('funcExame.create')->with('sucesso', 'Dados Atualizados com Sucesso para ' . $funcionario->nome . '. Clique em (Listar Todos) para visualizar.');
     }
 
     public function verificarExamesFuncionario($idFuncionario)
@@ -105,16 +102,6 @@ class FuncExameController extends Controller
         return response()->json(['exames' => $exames]);
     }
 
-    public function verificarStatusExame($idFuncionario, $idExame)
-    {
-        $exame = DB::table('func_x_exame')
-            ->where('id_funcionario', $idFuncionario)
-            ->where('id_exame', $idExame)
-            ->first();
-
-        return response()->json(['existe' => $exame !== null]);
-    }
-
     public function index(Request $request)
     {
         $FuncExames = FuncionarioExame::whereHas('idExame', function ($query) use ($request) {
@@ -122,14 +109,28 @@ class FuncExameController extends Controller
         })->with('idExame', 'idFuncionario')->orderBy('id_exame', 'asc')->paginate(100);
         return view('funcExame.index', compact('FuncExames'));
     }
-    
+
     public function verificarAnotacaoExame($idFuncionario, $exameId)
     {
-        $anotacao = DB::table('func_x_exame')
+        $dadosExame = DB::table('func_x_exame')
             ->where('id_funcionario', $idFuncionario)
             ->where('id_exame', $exameId)
-            ->value('anotacao');
+            ->select('anotacao', 'data_validade') 
+            ->first();
+        return response()->json($dadosExame);
+    }
+    
+    public function update(Request $request, $id)
+    {
+        $funcExame = FuncionarioExame::find($id);
 
-        return response()->json(['anotacao' => $anotacao]);
+        if ($funcExame->data_validade != $request->data_validade || $funcExame->anotacao != $request->anotacao) {
+            $funcExame->data_validade = $request->data_validade;
+            $funcExame->anotacao = $request->anotacao;
+            $funcExame->save();
+        } else {
+            return redirect()->route('funcExame.index');
+        }
+        return redirect()->route('funcExame.index')->with('sucesso', 'Dados do exame atualizados com sucesso!');
     }
 }

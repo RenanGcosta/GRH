@@ -25,7 +25,6 @@ class ExameController extends Controller
     public function store(Request $request)
     {
         $input = $request->toArray();
-        // $input['ativo'] = isset($input['ativo']) ? 'Sim' : 'Não';
         Exame::create($input);
         return redirect()->route('exame.index')->with('sucesso', 'Exame Cadastrado com sucesso');
     }
@@ -50,23 +49,29 @@ class ExameController extends Controller
     public function update(Request $request, $id)
     {
         $input = $request->toArray();
-        // $input['ativo'] = isset($input['ativo']) ? 'Sim' : 'Não';
         $exame = Exame::find($id);
         $exame->fill($input);
         $exame->save();
         return redirect()->route('exame.index')->with('sucesso', 'Exame alterado com sucesso.');
     }
 
-    private function calcularDataValidade($duracao, $tipoPeriodo)
+    public function calcularDataValidade($idExame)
     {
+        $exame = Exame::find($idExame);
+
+        $tipoPeriodo = $exame->tipo_periodo;
+        $duracao = $exame->duracao;
+
         $dataAtual = Carbon::now();
+        $dataValidade = $dataAtual;
 
         if ($tipoPeriodo === 'ano(s)') {
-            $dataValidade = $dataAtual->addYears($duracao);
+            $dataValidade->addYears($duracao);
         } elseif ($tipoPeriodo === 'mês(es)') {
-            $dataValidade = $dataAtual->addMonths($duracao);
+            $dataValidade->addMonths($duracao);
         }
 
-        return $dataValidade;
+        return response()->json(['data_validade' => $dataValidade->format('d/m/Y')]);
+
     }
 }
