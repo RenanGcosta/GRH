@@ -18,7 +18,7 @@ class FuncExameController extends Controller
         $exames = Exame::where('ativo', 'Sim')->get();
         return view('funcExame.create', compact('funcionarios', 'exames'));
     }
-    
+
     public function edit($idFuncionario, $idExame)
     {
         $funcExame = DB::table('func_x_exame')
@@ -31,8 +31,6 @@ class FuncExameController extends Controller
         return view('funcExame.edit', compact('funcionario', 'exame', 'funcExame'));
     }
 
-
-
     private function calcularDataValidade($duracao, $tipoPeriodo)
     {
         $dataAtual = Carbon::now();
@@ -43,7 +41,6 @@ class FuncExameController extends Controller
         } elseif ($tipoPeriodo === 'mês(es)') {
             $dataValidade = $dataAtual->addMonths($duracao);
         }
-
         return $dataValidade;
     }
 
@@ -63,31 +60,16 @@ class FuncExameController extends Controller
             $exame = Exame::find($id_exame);
             $dataValidade = $this->calcularDataValidade($exame->duracao, $exame->tipo_periodo);
 
-            $existingRecord = DB::table('func_x_exame')
-                ->where('id_funcionario', $funcionario->id)
-                ->where('id_exame', $id_exame)
-                ->first();
-
-            if ($existingRecord) {
-                DB::table('func_x_exame')
-                    ->where('id_funcionario', $funcionario->id)
-                    ->where('id_exame', $id_exame)
-                    ->update([
-                        'data_validade' => $dataValidade,
-                        'anotacao' => $request->input('anotacao' . $id_exame),
-                        'id_user' => $id_user,
-                    ]);
-            } else {
-                $data = [
-                    'data_validade' => $dataValidade,
-                    'anotacao' => $request->input('anotacao' . $id_exame),
-                    'id_user' => $id_user,
-                    'id_funcionario' => $funcionario->id,
-                    'id_exame' => $id_exame,
-                ];
-                DB::table('func_x_exame')->insert($data);
-            }
+            $data = [
+                'data_validade' => $dataValidade,
+                'anotacao' => $request->input('anotacao' . $id_exame),
+                'id_user' => $id_user,
+                'id_funcionario' => $funcionario->id,
+                'id_exame' => $id_exame,
+            ];
+            DB::table('func_x_exame')->insert($data);
         }
+
         return redirect()->route('funcExame.create')->with('sucesso', 'Dados Atualizados com Sucesso para ' . $funcionario->nome . '. Clique em (Listar Todos) para visualizar.');
     }
 
@@ -115,17 +97,19 @@ class FuncExameController extends Controller
         $dadosExame = DB::table('func_x_exame')
             ->where('id_funcionario', $idFuncionario)
             ->where('id_exame', $exameId)
-            ->select('anotacao', 'data_validade') 
+            ->select('anotacao', 'data_validade')
             ->first();
         return response()->json($dadosExame);
     }
-    
+
     public function update(Request $request, $id)
     {
         $funcExame = FuncionarioExame::find($id);
 
         if ($funcExame->data_validade != $request->data_validade || $funcExame->anotacao != $request->anotacao) {
-            $funcExame->data_validade = $request->data_validade;
+            $dataValidade = \DateTime::createFromFormat('d/m/Y', $request->data_validade);
+            $funcExame->data_validade = $dataValidade->format('Y-m-d');
+
             $funcExame->anotacao = $request->anotacao;
             $funcExame->save();
         } else {

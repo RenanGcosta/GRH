@@ -70,54 +70,11 @@
             const anotacaoInputs = $('input[name^="anotacao"]');
             const dataValidadeInputs = $('input[name^="data_validade"]');
 
-            function aplicarMascaraData() {
-                dataValidadeInputs.on('input', function() {
-                    const input = $(this);
-                    let value = input.val().replace(/\D/g, ''); // Remover caracteres não numéricos
-
-                    if (value.length > 2) {
-                        value = value.slice(0, 2) + '/' + value.slice(2);
-                    }
-
-                    if (value.length > 5) {
-                        value = value.slice(0, 5) + '/' + value.slice(5, 9);
-                    }
-
-                    input.val(value);
-                });
-            }
-            aplicarMascaraData();
-
-            dataValidadeInputs.on('blur', function() {
-                const input = $(this);
-                const value = input.val();
-
-                if (value) {
-                    const pattern = /^(\d{2})\/(\d{2})\/(\d{4})/;
-
-                    if (!pattern.test(value)) {
-                        alert('Atenção! Formato de Data Inválido.');
-                        input.val('');
-                    } else {
-                        const day = parseInt(RegExp.$1, 10);
-                        const month = parseInt(RegExp.$2, 10);
-                        const year = parseInt(RegExp.$3, 10);
-
-                        if (month < 1 || month > 12 || day < 1 || day > 31 || year < 2000 || year > 9999) {
-                            alert('Data inválida. Insira uma data válida.');
-                            input.val('');
-                        }
-                    }
-                }
-            });
-
-
             function carregarDadosExames(idFuncionario) {
-                checkboxes.prop('checked', false);
-                anotacaoInputs.val('').prop('disabled', false);
+                checkboxes.prop('checked', false).prop('disabled', false);
+                anotacaoInputs.val('');
                 dataValidadeInputs.val('');
-
-                if (idFuncionario !== '') {
+                if (idFuncionario) {
                     $.ajax({
                         url: '/verificar-exames/' + idFuncionario,
                         method: 'GET',
@@ -130,75 +87,42 @@
                                 });
                                 examesInfoDiv.html('');
                             } else {
-                                if (response.exames.length > 0) {
-                                    let html = '<ul>';
-                                    const hoje = new Date(); // Obter a data de hoje apenas uma vez
-                                    const hojeSemHoras = new Date(hoje.getFullYear(), hoje.getMonth(),
-                                        hoje.getDate()
-                                    ); // Remova as horas para evitar problemas de fuso horário
-
-                                    response.exames.forEach(function(exameInfo) {
-                                        const dataValidade = new Date(exameInfo.data_validade);
-                                        const formattedDataValidade = dataValidade
-                                            .toLocaleDateString('pt-BR', {
-                                                timeZone: 'UTC'
-                                            }); // Defina a zona de fuso horário para UTC
+                                const examesVinculados = new Set(response.exames.map(exameInfo =>
+                                    exameInfo.id_exame));
+                                let html = '<ul>';
+                                checkboxes.each(function() {
+                                    const checkbox = $(this);
+                                    const exameId = parseInt(checkbox.val(), 10);
+                                    if (examesVinculados.has(exameId)) {
+                                        checkbox.prop('disabled', true);
+                                        const exameInfo = response.exames.find(exameInfo =>
+                                            exameInfo.id_exame === exameId);
+                                        const formattedDataValidade = new Date(exameInfo
+                                            .data_validade).toLocaleDateString('pt-BR');
                                         html += '<li>' + exameInfo.exame + ' - Vence em: ' +
                                             formattedDataValidade + '</li>';
-                                        const checkbox = $('input[name="exames[]"][value="' +
-                                            exameInfo.id_exame + '"]');
+                                    }
+                                });
 
-                                        if (checkbox.length) {
-                                            const dataValidade = new Date(exameInfo
-                                                .data_validade);
-                                            const formattedDataValidade = dataValidade
-                                                .toLocaleDateString('pt-BR', {
-                                                    timeZone: 'UTC'
-                                                });
-
-                                            // Crie as datas sem horas para evitar problemas de fuso horário
-                                            const dataValidadeSemHoras = new Date(dataValidade
-                                                .getFullYear(), dataValidade.getMonth(),
-                                                dataValidade.getDate());
-                                            const hoje = new Date();
-                                            const hojeSemHoras = new Date(hoje.getFullYear(),
-                                                hoje.getMonth(), hoje.getDate());
-
-                                            if (dataValidadeSemHoras < hojeSemHoras) {
-                                                checkbox.prop('checked', true);
-                                            } else {
-                                                checkbox.prop('checked', false);
-                                            }
-
-                                            const anotacaoInput = $('input[name="anotacao' +
-                                                exameInfo.id_exame + '"]');
-                                            anotacaoInput.val(exameInfo.anotacao || '');
-
-                                            const dataValidadeInput = $(
-                                                'input[name="data_validade' + exameInfo
-                                                .id_exame + '"]');
-                                            dataValidadeInput.val(formattedDataValidade || '');
-                                        }
-
-
-                                    });
-                                    html += '</ul>';
-                                    examesInfoDiv.html(html);
-                                } else {
-                                    examesInfoDiv.html('');
+                                if (examesVinculados.size === 0) {
                                     Swal.fire({
                                         icon: 'info',
                                         title: 'Nenhum exame encontrado',
-                                        text: 'Nenhum exame encontrado para este funcionário.'
+                                        text: 'Este funcionário não possui exames vinculados.'
                                     });
+                                    examesInfoDiv.html('');
+                                } else {
+                                    html = '<h3>Exames Existentes para o Funcionário:</h3>' + html;
                                 }
+                                html += '</ul>';
+                                examesInfoDiv.html(html);
                             }
                         },
                         error: function(error) {
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Erro',
-                                text: 'Erro ao verificar exames: ' + error
+                                text: 'Erro ao verificar exames: ' + error.statusText
                             });
                             examesInfoDiv.html('');
                         }
@@ -218,47 +142,21 @@
                     if (checkbox.prop('checked')) {
                         const idFuncionario = $('#id_funcionario').val();
                         $.ajax({
-                            url: '/obter-dados-funcExame/' + idFuncionario + '/' + exameId,
+                            url: '/data-validade-exame/' + exameId,
                             method: 'GET',
-                            success: function(statusResponse) {
-                                if (statusResponse.anotacao) {
-                                    anotacaoInput.val(statusResponse.anotacao);
+                            success: function(dataValidadeResponse) {
+                                if (dataValidadeResponse.data_validade) {
+                                    dataValidadeInput.prop('value', dataValidadeResponse
+                                        .data_validade);
                                 } else {
-                                    anotacaoInput.val('');
-                                }
-
-                                if (statusResponse.data_validade) {
-                                    const dataValidade = new Date(statusResponse.data_validade);
-                                    const formattedDataValidade = dataValidade
-                                        .toLocaleDateString('pt-BR', {
-                                            timeZone: 'UTC'
-                                        });
-                                    dataValidadeInput.prop('value', formattedDataValidade);
-                                } else {
-                                    $.ajax({
-                                        url: '/data-validade-exame/' + exameId,
-                                        method: 'GET',
-                                        success: function(dataValidadeResponse) {
-                                            if (dataValidadeResponse
-                                                .data_validade) {
-                                                dataValidadeInput.prop('value',
-                                                    dataValidadeResponse
-                                                    .data_validade);
-                                            } else {
-                                                dataValidadeInput.prop('value', '');
-                                            }
-                                        },
-                                        error: function(error) {
-                                            console.error(error);
-                                        }
-                                    });
-
+                                    dataValidadeInput.prop('value', '');
                                 }
                             },
                             error: function(error) {
                                 console.error(error);
                             }
                         });
+
                     } else {
                         anotacaoInput.val('');
                         dataValidadeInput.prop('value', '');

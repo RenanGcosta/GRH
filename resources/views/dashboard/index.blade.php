@@ -17,6 +17,7 @@
                     </div>
                   </div>
                 </div>
+
                 <div class="col">
                   <div class="card h-100">
                     <div class="card-body text-center">
@@ -26,6 +27,7 @@
                     </div>
                   </div>
                 </div>
+
                 <div class="col">
                   <div class="card h-100">
                     <div class="card-body text-center">

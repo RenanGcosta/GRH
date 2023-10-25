@@ -87,7 +87,7 @@ Route::delete('/funcTreinamento/{id}', [FuncTreinamentoController::class, 'destr
 
 //AJAX
 Route::get('/verificar-exames/{idFuncionario}', [FuncExameController::class, 'verificarExamesFuncionario']);
-Route::get('/obter-dados-funcExame/{idFuncionario}/{idExame}', [FuncExameController::class, 'verificarAnotacaoExame']);
+//Route::get('/obter-dados-funcExame/{idFuncionario}/{idExame}', [FuncExameController::class, 'verificarAnotacaoExame']);
 Route::get('/data-validade-exame/{idExame}', [ExameController::class, 'calcularDataValidade']);
 /*-------------------------------------------------------------------------------------------------------------------------------------*/
 Route::get('/verificar-treinamentos/{idFuncionario}', [FuncTreinamentoController::class, 'verificarTreinamentosFuncionario']);

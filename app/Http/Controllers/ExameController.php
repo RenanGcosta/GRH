@@ -7,7 +7,6 @@ use App\Models\FuncionarioExame;
 use Illuminate\Http\Request;
 use App\Models\Funcionario;
 use Carbon\Carbon;
-
 class ExameController extends Controller
 {
     public function index(Request $request)
@@ -71,7 +70,7 @@ class ExameController extends Controller
             $dataValidade->addMonths($duracao);
         }
 
+        $dataValidade = $dataValidade->subDay();
         return response()->json(['data_validade' => $dataValidade->format('d/m/Y')]);
-
     }
 }
