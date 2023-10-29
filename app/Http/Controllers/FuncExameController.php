@@ -44,7 +44,6 @@ class FuncExameController extends Controller
         return $dataValidade;
     }
 
-
     public function store(Request $request)
     {
         $funcionario = Funcionario::find($request->input('id_funcionario'));
@@ -69,7 +68,6 @@ class FuncExameController extends Controller
             ];
             DB::table('func_x_exame')->insert($data);
         }
-
         return redirect()->route('funcExame.create')->with('sucesso', 'Dados Atualizados com Sucesso para ' . $funcionario->nome . '. Clique em (Listar Todos) para visualizar.');
     }
 
@@ -81,26 +79,49 @@ class FuncExameController extends Controller
             ->where('func_x_exame.id_funcionario', $idFuncionario)
             ->get();
 
+        foreach ($exames as $exame) {
+            $dataValidade = Carbon::parse($exame->data_validade);
+            $dataValidade->addDay();
+            $exame->data_validade = $dataValidade->format('Y-m-d');
+        }
         return response()->json(['exames' => $exames]);
     }
 
     public function index(Request $request)
     {
-        $FuncExames = FuncionarioExame::whereHas('idExame', function ($query) use ($request) {
-            $query->where('exame', 'like', '%' . $request->buscaFuncExame . '%');
-        })->with('idExame', 'idFuncionario')->orderBy('id_exame', 'asc')->paginate(100);
+        $query = FuncionarioExame::query();
+    
+        if ($request->filled('exame')) {
+            $query->whereHas('idExame', function ($subquery) use ($request) {
+                $subquery->where('exame', 'like', '%' . $request->exame . '%');
+            });
+        }
+    
+        if ($request->filled('nome')) {
+            $query->whereHas('idFuncionario', function ($subquery) use ($request) {
+                $subquery->where('nome', 'like', '%' . $request->nome . '%');
+            });
+        }
+    
+        if ($request->filled('data_validade')) {
+            $dataValidade = \Carbon\Carbon::createFromFormat('d/m/Y', $request->data_validade)->format('Y-m-d');
+            $query->where('data_validade', $dataValidade);
+        }
+    
+        $FuncExames = $query->with('idExame', 'idFuncionario')->orderBy('id_exame', 'asc')->paginate(100);
+    
         return view('funcExame.index', compact('FuncExames'));
     }
-
-    public function verificarAnotacaoExame($idFuncionario, $exameId)
-    {
-        $dadosExame = DB::table('func_x_exame')
-            ->where('id_funcionario', $idFuncionario)
-            ->where('id_exame', $exameId)
-            ->select('anotacao', 'data_validade')
-            ->first();
-        return response()->json($dadosExame);
-    }
+    
+    // public function verificarAnotacaoExame($idFuncionario, $exameId)
+    // {
+    //     $dadosExame = DB::table('func_x_exame')
+    //         ->where('id_funcionario', $idFuncionario)
+    //         ->where('id_exame', $exameId)
+    //         ->select('anotacao', 'data_validade')
+    //         ->first();
+    //     return response()->json($dadosExame);
+    // }
 
     public function update(Request $request, $id)
     {
@@ -116,5 +137,11 @@ class FuncExameController extends Controller
             return redirect()->route('funcExame.index');
         }
         return redirect()->route('funcExame.index')->with('sucesso', 'Dados do exame atualizados com sucesso!');
+    }
+    public function destroy($id)
+    {
+        $exame = FuncionarioExame::find($id);
+        $exame->delete();
+        return redirect()->route('funcExame.index')->with('sucesso', 'Exame deletado com sucesso.');
     }
 }

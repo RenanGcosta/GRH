@@ -69,8 +69,8 @@ return [
     |
     */
 
+    //'timezone' => 'America/Sao_Paulo',
     'timezone' => 'UTC',
-
     /*
     |--------------------------------------------------------------------------
     | Application Locale Configuration

@@ -16,7 +16,6 @@ class CargoController extends Controller
     public function store(Request $request)
     {
         $input = $request->toArray();
-        //$input['ativo'] = isset($input['ativo']) ? 'Sim' : 'Não';
         Cargo::create($input);
         return redirect()->route('cargo.index')->with('sucesso', 'Cargo Cadastrado com sucesso');
     }
@@ -34,7 +33,6 @@ class CargoController extends Controller
 
     public function update(Request $request, $id){
         $input = $request->toArray();
-       // $input['ativo'] = isset($input['ativo']) ? 'Sim' : 'Não';
         $cargo = Cargo::find($id);
         $cargo->fill($input);
         $cargo->save();

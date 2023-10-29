@@ -8,6 +8,7 @@
     <script src="/js/sweetalert2.all.min.js"></script>
     <link rel="stylesheet" href="/css/sweetalert2.min.css">
     <script src="/js/jquery-3.6.0.min.js"></script>
+    <script src="/js/mascara_cpf.js"></script>
     <link rel="icon" href="/images/layout/icone.png">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/icons/bootstrap-icons.css">
@@ -27,7 +28,7 @@
                 <img src="#" alt="" width="70" height="40">
                 <ul class="navbar-nav">
                     <li class="nav-item px-3">
-                        <a class="nav-link bi bi-house text-white" href="{{ route('dashboard.index') }}"> Home </a>
+                        <a class="nav-link bi bi-house text-white" href="{{ route('dashboard.index') }}"> Início </a>
                     </li>
 
                     @can('acessar-usuarios')

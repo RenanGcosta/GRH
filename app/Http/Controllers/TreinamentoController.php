@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\FuncionarioTreinamento;
 use Illuminate\Http\Request;
 use App\Models\Treinamento;
-
+use Carbon\Carbon;
 class TreinamentoController extends Controller
 {
     public function index(Request $request){
@@ -22,7 +22,6 @@ class TreinamentoController extends Controller
     public function store(Request $request)
     {
         $input = $request->all();
-        //$input['ativo'] = $request->has('ativo') ? 'Sim' : 'Não';
         Treinamento::create($input);
         return redirect()->route('treinamento.index')->with('sucesso', 'Treinamento Cadastrado com sucesso');
     }
@@ -44,10 +43,29 @@ class TreinamentoController extends Controller
 
     public function update(Request $request, $id){
         $input = $request->all();
-       // $input['ativo'] = $request->has('ativo') ? 'Sim' : 'Não';
         $treinamento = Treinamento::find($id);
         $treinamento->fill($input);
         $treinamento->save();
         return redirect()->route('treinamento.index')->with('sucesso', 'Treinamento alterado com sucesso.');
+    }
+
+    public function calcularDataValidade($idTreinamento)
+    {
+        $treinamento = Treinamento::find($idTreinamento);
+
+        $tipoPeriodo = $treinamento->tipo_periodo;
+        $duracao = $treinamento->duracao;
+
+        $dataAtual = Carbon::now();
+        $dataValidade = $dataAtual;
+
+        if ($tipoPeriodo === 'ano(s)') {
+            $dataValidade->addYears($duracao);
+        } elseif ($tipoPeriodo === 'mês(es)') {
+            $dataValidade->addMonths($duracao);
+        }
+
+       // $dataValidade = $dataValidade->subDay();
+        return response()->json(['data_validade' => $dataValidade->format('d/m/Y')]);
     }
 }

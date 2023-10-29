@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('func_x_treinamento', function (Blueprint $table) {
             $table->id();
             $table->date('data_validade');
-            $table->string('anotacao')->nullable();
+            $table->text('anotacao')->nullable();
 
             //(FK) table users
             $table->unsignedBigInteger('id_user');

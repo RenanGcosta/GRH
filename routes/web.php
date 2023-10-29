@@ -81,14 +81,13 @@ Route::delete('/funcExame/{id}', [FuncExameController::class, 'destroy'])->name(
 Route::get('/funcTreinamento/create', [FuncTreinamentoController::class, 'create'])->name('funcTreinamento.create');
 Route::post('/funcTreinamento', [FuncTreinamentoController::class, 'store'])->name('funcTreinamento.store');
 Route::get('/funcTreinamento', [FuncTreinamentoController::class, 'index'])->name('funcTreinamento.index');
-Route::get('/funcTreinamento/edit/{id}', [FuncTreinamentoController::class,'edit'])->name('funcTreinamento.edit');
+Route::get('/funcTreinamento/edit/{idFuncionario}/{idTreinamento}', [FuncTreinamentoController::class,'edit'])->name('funcTreinamento.edit');
 Route::put('/funcTreinamento/{id}', [FuncTreinamentoController::class,'update'])->name('funcTreinamento.update');
 Route::delete('/funcTreinamento/{id}', [FuncTreinamentoController::class, 'destroy'])->name('funcTreinamento.destroy');
 
 //AJAX
 Route::get('/verificar-exames/{idFuncionario}', [FuncExameController::class, 'verificarExamesFuncionario']);
-//Route::get('/obter-dados-funcExame/{idFuncionario}/{idExame}', [FuncExameController::class, 'verificarAnotacaoExame']);
 Route::get('/data-validade-exame/{idExame}', [ExameController::class, 'calcularDataValidade']);
 /*-------------------------------------------------------------------------------------------------------------------------------------*/
 Route::get('/verificar-treinamentos/{idFuncionario}', [FuncTreinamentoController::class, 'verificarTreinamentosFuncionario']);
-Route::get('/verificar-status-treinamento/{idFuncionario}/{treinamentoId}', [FuncTreinamentoController::class, 'verificarStatusTreinamento']);
+Route::get('/data-validade-treinamento/{idTreinamento}', [TreinamentoController::class, 'calcularDataValidade']);

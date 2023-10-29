@@ -9,16 +9,19 @@
         <div class="alert alert-danger text-center">{{ Session::get('erro') }}</div>
     @endif
     <h1>Treinamentos Cadastrados</h1>
-    <a href="{{ route('treinamento.create') }}" title="Cadastrar Treinamento"
-        class="btn btn-primary position-absolute top-0 end-0 m-4 rounded-circle fs-4"><i
-            class="bi bi-file-earmark-person"></i></a>
-    <form action="" method="get" class="mb-3 d-flex justify-content-end">
-        <div class="input-group me-3">
-            <input type="text" name="buscaTreinamento" class="form-control form-control-lg" placeholder="Exemplo: NR10">
-            <button class="btn btn-primary" type="submit">Procurar</button>
-        </div>
-        <a href="{{ route('treinamento.index') }}" class="btn btn-danger border ">Limpar</a>
-    </form>
+
+<div class="row mb-3">
+        <form action="{{ route('treinamento.index') }}" method="get" class="d-flex align-items-center">
+            <div class="input-group">
+                <input type="text" name="buscaTreinamento" class="form-control" placeholder="Nome do Treinamento">
+                <button class="btn btn-primary" type="submit">Procurar</button>
+                <a href="{{ route('treinamento.index') }}" class="btn btn-secondary">Limpar</a>
+            </div>
+            <div class="d-flex align-items-center" style="margin: 0 10px; border-left: 1px solid #aa8888; height: 38px;">
+            </div>
+            <a href="{{ route('treinamento.create') }}" class="btn btn-primary">Novo</a>
+        </form>
+    </div>
 
     <table class="table table-striped">
         <thead class="table-dark">

@@ -18,7 +18,7 @@
                 <div class="col-6">
                     <div>
                         <label for="nome" class="form-label">Nome Completo</label>
-                        <input type="text" name="nome" class="form-control form-control-lg bg-light" value={{ $dadosFuncionario->nome }}>
+                        <input type="text" name="nome" class="form-control form-control-lg bg-light" value="{{ $dadosFuncionario->nome }}">
                     </div>
                 </div>
                 <div class="col-3">

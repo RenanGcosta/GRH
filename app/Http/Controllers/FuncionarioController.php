@@ -18,7 +18,7 @@ class FuncionarioController extends Controller
         $departamentos = Departamento::where('ativo', 'Sim')->orderBy('departamento')->get();
         return view('funcionario.create', compact('proxMatricula', 'cargos', 'departamentos'));
     }
-    
+
 
     public function store(Request $request)
     {
@@ -28,15 +28,36 @@ class FuncionarioController extends Controller
     }
 
     public function index(Request $request)
-
     {
-        $funcionarios = Funcionario::where('nome', 'like', '%' .
-        $request->buscaFuncionario . '%')->orderby('nome', 'asc')->paginate(50);
+        $query = Funcionario::query();
+    
+        if ($request->filled('matricula')) {
+            $query->where('matricula', $request->input('matricula'));
+        }
+    
+        if ($request->filled('nome')) {
+            $query->where('nome', 'like', '%' . $request->input('nome') . '%');
+        }
+    
+        if ($request->filled('CPF')) {
+            $query->where('CPF', $request->input('CPF'));
+        }
+    
+        if ($request->filled('cargo')) {
+            $query->whereHas('idCargo', function ($query) use ($request) {
+                $query->where('cargo', $request->input('cargo'));
+            });
+        }
+    
+        $funcionarios = $query->get();
+    
         return view('funcionario.index', compact('funcionarios'));
     }
-
-    public function edit($id){
+    
+    public function edit($id)
+    {
         $dadosFuncionario = Funcionario::find($id);
+       // dd($dadosFuncionario);
         $departamentos = Departamento::all();
         $cargos = Cargo::all();
         return view('funcionario.edit', compact('dadosFuncionario', 'departamentos', 'cargos'));
@@ -54,10 +75,22 @@ class FuncionarioController extends Controller
         $funcionario->fill($request->all())->save();
         return redirect()->route('funcionario.index')->with('sucesso', 'Funcionário atualizado com sucesso!');
     }
-    
+
     public function destroy($id)
     {
         $funcionario = Funcionario::find($id);
+        $examesCount = DB::table('func_x_exame')
+            ->where('id_funcionario', $id)
+            ->count();
+
+        $treinamentosCount = DB::table('func_x_treinamento')
+            ->where('id_funcionario', $id)
+            ->count();
+
+        if ($examesCount > 0 || $treinamentosCount > 0) {
+            return redirect()->route('funcionario.index')->with('erro', 'Este funcionário possui exames ou treinamentos vinculados e não pode ser excluído.');
+        }
+
         $funcionario->delete();
         return redirect()->route('funcionario.index')->with('sucesso', 'Funcionario deletado com sucesso!');
     }

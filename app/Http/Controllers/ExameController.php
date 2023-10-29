@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Exame;
 use App\Models\FuncionarioExame;
 use Illuminate\Http\Request;
-use App\Models\Funcionario;
 use Carbon\Carbon;
 class ExameController extends Controller
 {
@@ -70,7 +69,7 @@ class ExameController extends Controller
             $dataValidade->addMonths($duracao);
         }
 
-        $dataValidade = $dataValidade->subDay();
+       // $dataValidade = $dataValidade->subDay();
         return response()->json(['data_validade' => $dataValidade->format('d/m/Y')]);
     }
 }

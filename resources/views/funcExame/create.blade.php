@@ -34,25 +34,27 @@
                 </thead>
                 <tbody>
                     @foreach ($exames as $exame)
-                        <tr class="text-center">
-                            <td>
-                                <div class="form-check">
-                                    <input type="checkbox" name="exames[]" value="{{ $exame->id }}"
-                                        class="form-check-input">
-                                    <label class="form-check-label">{{ $exame->exame }}</label>
-                                </div>
-                            </td>
-                            <td>
-                                <input name="anotacao{{ $exame->id }}" class="form-control" placeholder="Anotação">
-                            </td>
-                            <td>
-                                <input type="text" name="data_validade{{ $exame->id }}" class="form-control bg-light"
-                                    readonly>
-                            </td>
-                            <td>
-                                <p>Duração: {{ $exame->duracao }} {{ $exame->tipo_periodo }}</p>
-                            </td>
-                        </tr>
+                        <div class="row">
+                            <tr class="text-center">
+                                <td class="col-2">
+                                    <div class="form-check">
+                                        <input type="checkbox" name="exames[]" value="{{ $exame->id }}"
+                                            class="form-check-input">
+                                        <label class="form-check-label">{{ $exame->exame }}</label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <input name="anotacao{{ $exame->id }}" class="form-control" placeholder="Anotação">
+                                </td>
+                                <td class="col-2">
+                                    <input type="text" name="data_validade{{ $exame->id }}"
+                                        class="form-control bg-light" readonly>
+                                </td>
+                                <td class="col-2">
+                                    <p>Duração: {{ $exame->duracao }} {{ $exame->tipo_periodo }}</p>
+                                </td>
+                            </tr>
+                        </div>
                     @endforeach
                 </tbody>
             </table>

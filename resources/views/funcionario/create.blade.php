@@ -23,7 +23,6 @@
                         <input type="text" name="CPF" class="form-control form-control-lg bg-light" value="">
                     </div>
                 </div>
-
                 <div class="col-3">
                     <div>
                         <label for="data_nascimento" class="form-label">Data de Nascimento</label>
@@ -79,88 +78,84 @@
                 </div>
             </div>
             <div class="row mb-4">
-                
-                    <div class="col-3">
-                        <label for="sexo" class="form-label">Sexo</label>
-                        <select name="sexo" class="form-select form-select-lg bg-light">
-                            <option value=""></option>
-                            <option value="Masculino">Masculino</option>
-                            <option value="Feminino">Feminino</option>
-                        </select>
-                    </div>
-                    <div class="col-8">
-                        <div>
-                            <label for="observacao" class="form-label">Observação</label>
-                            <input type="text" name="observacao" class="form-control form-control-lg bg-light"
-                                value="">
-                        </div>
-                    </div>
-                    <div class="col-1">
-                        <div>
-                            <label for="matricula" class="form-label">Matrícula</label>
-                            <input type="text" name="matricula" class="form-control form-control-lg bs-dark-bg-subtle"
-                                readonly value="{{ $proxMatricula }}">
-                        </div>
-                    </div>
-            <div class="row mb-4 mt-4">
-                <div class="col-5">
-                    <label for="formFile" class="form-label">Foto</label>
-                    <input name="foto" class="form-control" type="file" id="foto">
-                </div>
-            </div>
-            <div class="mb-2">
-                <h2>Endereço</h2>
-            </div>
-            <div class="row mb-4">
                 <div class="col-3">
-                    <div>
-                        <label for="CEP" class="form-label">CEP</label>
-                        <input type="text" name="CEP" class="form-control form-control-lg bg-light"
-                            value="" placeholder="48000-000">
-                    </div>
+                    <label for="sexo" class="form-label">Sexo</label>
+                    <select name="sexo" class="form-select form-select-lg bg-light">
+                        <option value=""></option>
+                        <option value="Masculino">Masculino</option>
+                        <option value="Feminino">Feminino</option>
+                    </select>
                 </div>
                 <div class="col-8">
                     <div>
-                        <label for="logradouro" class="form-label">Logradouro</label>
-                        <input type="text" name="logradouro" class="form-control form-control-lg bg-light"
+                        <label for="observacao" class="form-label">Observação</label>
+                        <input type="text" name="observacao" class="form-control form-control-lg bg-light"
                             value="">
                     </div>
                 </div>
                 <div class="col-1">
                     <div>
-                        <label for="numero" class="form-label">Número</label>
-                        <input type="text" name="numero" class="form-control form-control-lg bg-light"
-                            value="">
+                        <label for="matricula" class="form-label">Matrícula</label>
+                        <input type="text" name="matricula" class="form-control form-control-lg bs-dark-bg-subtle"
+                            readonly value="{{ $proxMatricula }}">
                     </div>
+                </div>
+                <div class="mb-2 mt-4">
+                    <h2>Endereço</h2>
+                </div>
+                <div class="row mb-4">
+                    <div class="col-3">
+                        <div>
+                            <label for="CEP" class="form-label">CEP</label>
+                            <input type="text" name="CEP" class="form-control form-control-lg bg-light"
+                                value="" placeholder="48000-000">
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div>
+                            <label for="logradouro" class="form-label">Logradouro</label>
+                            <input type="text" name="logradouro" class="form-control form-control-lg bg-light"
+                                value="">
+                        </div>
+                    </div>
+                    <div class="col-1">
+                        <div>
+                            <label for="numero" class="form-label">Número</label>
+                            <input type="text" name="numero" class="form-control form-control-lg bg-light"
+                                value="">
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-4">
+                    <div class="col-5">
+                        <div>
+                            <label for="bairro" class="form-label">Bairro</label>
+                            <input type="text" name="bairro" class="form-control form-control-lg bg-light"
+                                value="">
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div>
+                            <label for="estado" class="form-label">Estado</label>
+                            <input type="text" name="estado" class="form-control form-control-lg bg-light"
+                                value="">
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div>
+                            <label for="cidade" class="form-label">Cidade</label>
+                            <input type="text" name="cidade" class="form-control form-control-lg bg-light"
+                                value="">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-primary ">Cadastrar</button>
+                    <a href="{{ route('funcionario.index') }}" class="btn btn-secondary ">Listar todos</a>
                 </div>
             </div>
-            <div class="row mb-4">
-                <div class="col-5">
-                    <div>
-                        <label for="bairro" class="form-label">Bairro</label>
-                        <input type="text" name="bairro" class="form-control form-control-lg bg-light"
-                            value="">
-                    </div>
-                </div>
-                <div class="col-4">
-                    <div>
-                        <label for="estado" class="form-label">Estado</label>
-                        <input type="text" name="estado" class="form-control form-control-lg bg-light"
-                            value="">
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div>
-                        <label for="cidade" class="form-label">Cidade</label>
-                        <input type="text" name="cidade" class="form-control form-control-lg bg-light"
-                            value="">
-                    </div>
-                </div>
-            </div>
-            <div>
-                <button type="submit" class="btn btn-primary ">Cadastrar</button>
-                <a href="{{ route('funcionario.index') }}" class="btn btn-secondary ">Listar todos</a>
-            </div>
-    </div>
-    </form>
-@endsection
+        </form>
+        <script>
+            aplicarMascaraCPF();
+        </script>
+    @endsection

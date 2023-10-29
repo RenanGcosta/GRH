@@ -3,19 +3,25 @@
 @section('title', 'Listar Usuários')
 
 @section('bars')
-    <h1>Usuários: </h1>
-    @if (Session::get('sucesso'))
+    @if (Session::has('sucesso'))
         <div class="alert alert-success text-center">{{ Session::get('sucesso') }}</div>
+    @elseif (Session::has('erro'))
+        <div class="alert alert-danger text-center">{{ Session::get('erro') }}</div>
     @endif
-    <a href="{{ route('usuarios.create') }}" class="btn btn-primary position-absolute top-0 end-0 m-4 rounded-circle fs-4"><i
-            class="bi bi-plus"></i></a>
-    <form action="" method="get" class="mb-3 d-flex justify-content-end">
-        <div class="input-group me-3">
-            <input type="text" name="buscaUser" class="form-control form-control-lg" placeholder="exemplo: Alehandro">
-            <button class="btn btn-primary" type="submit">Procurar</button>
-        </div>
-        <a href="{{ route('usuarios.index') }}" class="btn btn-danger border ">Limpar</a>
-    </form>
+    <h1>Usuários Cadastrados</h1>
+
+    <div class="row mb-3">
+        <form action="{{ route('usuarios.index') }}" method="get" class="d-flex align-items-center">
+            <div class="input-group">
+                <input type="text" name="buscaUser" class="form-control" placeholder="Nome">
+                <button class="btn btn-primary" type="submit">Procurar</button>
+                <a href="{{ route('usuarios.index') }}" class="btn btn-secondary">Limpar</a>
+            </div>
+            <div class="d-flex align-items-center" style="margin: 0 10px; border-left: 1px solid #aa8888; height: 38px;">
+            </div>
+            <a href="{{ route('usuarios.create') }}" class="btn btn-primary">Novo</a>
+        </form>
+    </div>
 
     <table class="table table-striped">
         <thead class="table-dark">
