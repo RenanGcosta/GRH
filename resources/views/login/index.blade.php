@@ -8,11 +8,12 @@
     <link rel="icon" href="/images/layout/icone.png">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/icons/bootstrap-icons.css ">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="preload" as="image" href="/images/layout/background.jpg">
 </head>
-
-<body background="/images/layout/login.jpg">
+<body class="background-image">
     <div class="col-xl-3 bg-white p-5 shadow position-absolute top-50 start-50 translate-middle rounded">
-        <img src="/images/layout/logo.png" alt="logo" height="100" class="d-block mx-auto mb-4">
+        <img src="/images/layout/grh_logo.png" alt="logo" height="200" class="d-block mx-auto mb-4">
 
         @if (Session::get('erro'))
             <div class="alert alert-danger text-center p-2">{{ Session::get('erro') }}</div>

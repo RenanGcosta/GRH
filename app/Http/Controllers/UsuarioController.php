@@ -6,6 +6,9 @@ use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use App\Models\Funcionario;
+use App\Models\FuncionarioExame;
+use App\Models\FuncionarioTreinamento;
 
 class UsuarioController extends Controller
 {
@@ -56,8 +59,16 @@ class UsuarioController extends Controller
     public function destroy($id)
     {
         Gate::authorize('acessar-usuarios');
-        $users = User::find($id);
-        $users->delete();
+    
+        $user = User::find($id);
+        $funcionarioVinculado = Funcionario::where('id_user', $id)->count();
+        $examesVinculados = FuncionarioExame::where('id_user', $id)->count();
+        $treinamentosVinculados = FuncionarioTreinamento::where('id_user', $id)->count();
+        if ($funcionarioVinculado > 0 || $examesVinculados > 0 || $treinamentosVinculados > 0) {
+            return redirect()->route('usuarios.index')->with('erro', 'Não é possível excluir o usuário porque ele está vinculado a funcionários, exames ou treinamentos.');
+        }
+    
+        $user->delete();
         return redirect()->route('usuarios.index')->with('sucesso', 'Usuário deletado com sucesso!');
     }
 }

@@ -27,7 +27,7 @@
             </button>
 
             <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-                <img src="#" alt="" width="70" height="40">
+                <img src="/images/layout/grh_icon.png" alt="" width="70" height="40">
                 <ul class="navbar-nav">
                     <li class="nav-item px-3">
                         <a class="nav-link bi bi-house text-white" href="{{ route('dashboard.index') }}"> Início </a>
