@@ -6,9 +6,16 @@ use App\Models\FuncionarioTreinamento;
 use Illuminate\Http\Request;
 use App\Models\Treinamento;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Gate;
 class TreinamentoController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function index(Request $request){
+        Gate::authorize('acessar-usuarios');
         $treinamentos = Treinamento::where('treinamento', 'like', '%' . $request->buscaTreinamento . '%')
             ->orderBy('treinamento', 'asc')
             ->paginate(100);
@@ -16,17 +23,20 @@ class TreinamentoController extends Controller
     }
 
     public function create(){
+        Gate::authorize('acessar-usuarios');
         return view('treinamento.create');
     }
 
     public function store(Request $request)
     {
+        Gate::authorize('acessar-usuarios');
         $input = $request->all();
         Treinamento::create($input);
         return redirect()->route('treinamento.index')->with('sucesso', 'Treinamento Cadastrado com sucesso');
     }
 
     public function destroy($id){
+        Gate::authorize('acessar-usuarios');
         $treinamento = Treinamento::find($id);
         $funcionarioVinculado = FuncionarioTreinamento::where('id_treinamento', $id)->count();
         if ($funcionarioVinculado > 0) {
@@ -37,11 +47,13 @@ class TreinamentoController extends Controller
     }
     
     public function edit($id){
+        Gate::authorize('acessar-usuarios');
         $dadosTreinamento = Treinamento::find($id);
         return view('treinamento.edit', compact('dadosTreinamento'));
     }
 
     public function update(Request $request, $id){
+        Gate::authorize('acessar-usuarios');
         $input = $request->all();
         $treinamento = Treinamento::find($id);
         $treinamento->fill($input);

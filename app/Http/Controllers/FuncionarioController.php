@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\DB;
 
 class FuncionarioController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function create()
     {
         $max = DB::table('funcionario')->max('matricula');
@@ -30,34 +35,34 @@ class FuncionarioController extends Controller
     public function index(Request $request)
     {
         $query = Funcionario::query();
-    
+
         if ($request->filled('matricula')) {
             $query->where('matricula', $request->input('matricula'));
         }
-    
+
         if ($request->filled('nome')) {
             $query->where('nome', 'like', '%' . $request->input('nome') . '%');
         }
-    
+
         if ($request->filled('CPF')) {
             $query->where('CPF', $request->input('CPF'));
         }
-    
+
         if ($request->filled('cargo')) {
             $query->whereHas('idCargo', function ($query) use ($request) {
                 $query->where('cargo', $request->input('cargo'));
             });
         }
-    
+
         $funcionarios = $query->get();
-    
+
         return view('funcionario.index', compact('funcionarios'));
     }
-    
+
     public function edit($id)
     {
         $dadosFuncionario = Funcionario::find($id);
-       // dd($dadosFuncionario);
+        // dd($dadosFuncionario);
         $departamentos = Departamento::all();
         $cargos = Cargo::all();
         return view('funcionario.edit', compact('dadosFuncionario', 'departamentos', 'cargos'));

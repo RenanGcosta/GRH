@@ -6,7 +6,7 @@
 
     <body style="background-color: #ffffff">
         <p></p>
-        
+
 
         <div class="row row-cols-1 row-cols-md-3 g-4 mybackground">
             <div class="col" id="30_dias">
@@ -16,7 +16,7 @@
                         @foreach ($exames30 as $exame)
                             <div class="card mb-3">
                                 <div class="card-body"
-                                    style="background: linear-gradient(to right, rgb(207, 219, 251) 0%, rgb(176, 176, 219) 100%);">
+                                    style="background: linear-gradient(to right, rgb(215, 223, 243) 0%, rgb(197, 197, 237) 100%);">
                                     <p><strong>Exame:</strong> {{ $exame->idExame->exame }}</p>
                                     <p>{{ $exame->idFuncionario->nome }}</p>
                                     <p><strong>Data:</strong>{{ \Carbon\Carbon::parse($exame->data_validade)->format('d/m/Y') }}
@@ -28,7 +28,7 @@
                         @foreach ($treinamentos30 as $treinamento)
                             <div class="card mb-3">
                                 <div class="card-body"
-                                    style="background: linear-gradient(to right, rgb(207, 219, 251) 0%, rgb(176, 176, 219) 100%);">
+                                    style="background: linear-gradient(to right, rgb(215, 223, 243) 0%, rgb(197, 197, 237) 100%);">
                                     <p><strong>Treinamento:</strong> {{ $treinamento->idTreinamento->treinamento }}</p>
                                     <p>{{ $treinamento->idFuncionario->nome }}</p>
                                     <p><strong>Data:</strong>
@@ -48,7 +48,7 @@
                         @foreach ($exames7 as $exame)
                             <div class="card mb-3">
                                 <div class="card-body"
-                                    style="background: linear-gradient(to right, rgb(233, 230, 196) 0%, rgb(225, 217, 129) 100%);">
+                                    style="background: linear-gradient(to right, rgb(241, 239, 215) 0%, rgb(240, 234, 174) 100%);">
                                     <p><strong>Exame:</strong> {{ $exame->idExame->exame }}</p>
                                     <p>{{ $exame->idFuncionario->nome }}</p>
                                     <p><strong>Data:
@@ -60,7 +60,7 @@
                         @foreach ($treinamentos7 as $treinamento)
                             <div class="card mb-3">
                                 <div class="card-body"
-                                    style="background: linear-gradient(to right, rgb(233, 230, 196) 0%, rgb(225, 217, 129) 100%);">
+                                    style="background: linear-gradient(to right, rgb(241, 239, 215) 0%, rgb(240, 234, 174) 100%);">
                                     <p><strong>Treinamento:</strong> {{ $treinamento->idTreinamento->treinamento }}</p>
                                     <p>{{ $treinamento->idFuncionario->nome }}</p>
                                     <p><strong>Data:
@@ -81,7 +81,7 @@
                         @foreach ($examesVencidos as $exame)
                             <div class="card mb-3">
                                 <div class="card-body"
-                                    style="background: linear-gradient(to right, rgb(233, 230, 196) 0%, rgb(225, 217, 129) 100%);">
+                                    style="background: linear-gradient(to right, rgb(240, 210, 210) 0%, rgb(228, 162, 162) 100%);">
                                     <p><strong>Exame:</strong> {{ $exame->idExame->exame }}</p>
                                     <p>{{ $exame->idFuncionario->nome }}</p>
                                     <p><strong>Data:</strong>{{ \Carbon\Carbon::parse($exame->data_validade)->format('d/m/Y') }}
@@ -93,7 +93,7 @@
                         @foreach ($treinamentosVencidos as $treinamento)
                             <div class="card mb-3">
                                 <div class="card-body"
-                                    style="background: linear-gradient(to right, rgb(233, 196, 196) 0%, rgb(225, 129, 129) 100%);">
+                                    style="background: linear-gradient(to right, rgb(240, 210, 210) 0%, rgb(228, 162, 162) 100%);">
                                     <p><strong>Treinamento:</strong> {{ $treinamento->idTreinamento->treinamento }}</p>
                                     <p>{{ $treinamento->idFuncionario->nome }}</p>
                                     <p><strong>Data:</strong>

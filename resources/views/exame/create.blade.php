@@ -44,7 +44,7 @@
             </div>
             <div>
                 <button type="submit" class="btn btn-primary ">Cadastrar</button>
-                <a href="{{ route('exame.index') }}" class="btn btn-secondary ">Listar todos</a>
+                <a href="{{ route('exame.index') }}" class="btn btn-secondary">Listar todos</a>
             </div>
         </div>
     </form>

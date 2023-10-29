@@ -6,8 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\FuncionarioExame;
 use App\Models\FuncionarioTreinamento;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
-use DateTime;
 
 class DashboardController extends Controller
 {

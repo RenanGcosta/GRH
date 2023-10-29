@@ -16,6 +16,7 @@ class UsuarioController extends Controller
     }
     public function store(Request $request)
     {
+        Gate::authorize('acessar-usuarios');
         $existingUsername = User::where('username', $request->username)->value('username');
         if ($existingUsername) {
             return redirect()->route('usuarios.index')->with('erro', 'Já existe um usuário com o nome de ' . $existingUsername);
@@ -54,6 +55,7 @@ class UsuarioController extends Controller
 
     public function destroy($id)
     {
+        Gate::authorize('acessar-usuarios');
         $users = User::find($id);
         $users->delete();
         return redirect()->route('usuarios.index')->with('sucesso', 'Usuário deletado com sucesso!');

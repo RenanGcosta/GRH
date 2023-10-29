@@ -6,10 +6,17 @@ use App\Models\Exame;
 use App\Models\FuncionarioExame;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Gate;
 class ExameController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function index(Request $request)
     {
+        Gate::authorize('acessar-usuarios');
         $exames = Exame::where('exame', 'like', '%' .
             $request->buscaExame . '%')->orderby('exame', 'asc')->paginate(100);
         return view('exame.index', compact('exames'));
@@ -17,11 +24,13 @@ class ExameController extends Controller
 
     public function create()
     {
+        Gate::authorize('acessar-usuarios');
         return view('exame.create');
     }
 
     public function store(Request $request)
     {
+        Gate::authorize('acessar-usuarios');
         $input = $request->toArray();
         Exame::create($input);
         return redirect()->route('exame.index')->with('sucesso', 'Exame Cadastrado com sucesso');
@@ -29,6 +38,7 @@ class ExameController extends Controller
 
     public function destroy($id)
     {
+        Gate::authorize('acessar-usuarios');
         $exame = Exame::find($id);
         $funcionarioVinculado = FuncionarioExame::where('id_exame', $id)->count();
         if ($funcionarioVinculado > 0) {
@@ -40,12 +50,14 @@ class ExameController extends Controller
 
     public function edit($id)
     {
+        Gate::authorize('acessar-usuarios');
         $dadosExame = Exame::find($id);
         return view('exame.edit', compact('dadosExame'));
     }
 
     public function update(Request $request, $id)
     {
+        Gate::authorize('acessar-usuarios');
         $input = $request->toArray();
         $exame = Exame::find($id);
         $exame->fill($input);
