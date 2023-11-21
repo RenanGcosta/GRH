@@ -56,7 +56,7 @@ class CargoController extends Controller
         $cargo = Cargo::find($id);
         $funcionarioVinculado = Funcionario::where('id_cargo', $id)->count();
         if($funcionarioVinculado > 0 ){
-            return redirect()->route('cargo.index')->with('erro', 'Não é possível excluir o cargo porque ele está vinculado a funcionários.');
+            return redirect()->route('cargo.index')->with('erro', 'Não é possível excluir o cargo pois ele está vinculado a funcionários.');
         }
 
         $cargo->delete();

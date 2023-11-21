@@ -40,7 +40,7 @@ class TreinamentoController extends Controller
         $treinamento = Treinamento::find($id);
         $funcionarioVinculado = FuncionarioTreinamento::where('id_treinamento', $id)->count();
         if ($funcionarioVinculado > 0) {
-            return redirect()->route('treinamento.index')->with('erro', 'Não é possível excluir o treinamento porque ele está vinculado a funcionários.');
+            return redirect()->route('treinamento.index')->with('erro', 'Não é possível excluir o treinamento pois ele está vinculado a funcionários.');
         }
         $treinamento->delete();
         return redirect()->route('treinamento.index')->with('sucesso', 'Treinamento deletado com sucesso.');

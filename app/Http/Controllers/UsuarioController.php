@@ -65,7 +65,7 @@ class UsuarioController extends Controller
         $examesVinculados = FuncionarioExame::where('id_user', $id)->count();
         $treinamentosVinculados = FuncionarioTreinamento::where('id_user', $id)->count();
         if ($funcionarioVinculado > 0 || $examesVinculados > 0 || $treinamentosVinculados > 0) {
-            return redirect()->route('usuarios.index')->with('erro', 'Não é possível excluir o usuário porque ele está vinculado a funcionários, exames ou treinamentos.');
+            return redirect()->route('usuarios.index')->with('erro', 'Não é possível excluir o usuário pois ele está vinculado a funcionários, exames ou treinamentos.');
         }
     
         $user->delete();

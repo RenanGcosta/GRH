@@ -42,7 +42,7 @@ class ExameController extends Controller
         $exame = Exame::find($id);
         $funcionarioVinculado = FuncionarioExame::where('id_exame', $id)->count();
         if ($funcionarioVinculado > 0) {
-            return redirect()->route('cargo.index')->with('erro', 'Não é possível excluir o exame porque ele está vinculado a funcionários.');
+            return redirect()->route('cargo.index')->with('erro', 'Não é possível excluir o exame pois ele está vinculado a funcionários.');
         }
         $exame->delete();
         return redirect()->route('exame.index')->with('sucesso', 'Exame deletado com sucesso.');

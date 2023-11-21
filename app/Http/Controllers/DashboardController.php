@@ -21,7 +21,7 @@ class DashboardController extends Controller
 
         $periodo30diasExame = Carbon::now()->addDays(30)->toDateString();
         $exames30 = FuncionarioExame::whereBetween('data_validade', [$hojeSemHora, $periodo30diasExame])
-            ->whereNotBetween('data_validade', [$hojeSemHora, Carbon::now()->addDays(7)->toDateString()]) // Exclui os exames que faltam 7 dias ou menos
+            ->whereNotBetween('data_validade', [$hojeSemHora, Carbon::now()->addDays(7)->toDateString()])
             ->orderBy('data_validade', 'asc')
             ->get();
 
@@ -40,7 +40,7 @@ class DashboardController extends Controller
 
         $periodo30diasTreinamento = Carbon::now()->addDays(30)->toDateString();
         $treinamentos30 = FuncionarioTreinamento::whereBetween('data_validade', [$hojeSemHora, $periodo30diasTreinamento])
-            ->whereNotBetween('data_validade', [$hojeSemHora, Carbon::now()->addDays(7)->toDateString()]) // Exclui os exames que faltam 7 dias ou menos
+            ->whereNotBetween('data_validade', [$hojeSemHora, Carbon::now()->addDays(7)->toDateString()])
             ->orderBy('data_validade', 'asc')
             ->get();
 
