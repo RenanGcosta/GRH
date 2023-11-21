@@ -89,7 +89,7 @@ Route::delete('/funcTreinamento/{id}', [FuncTreinamentoController::class, 'destr
 Route::get('/verificar-exames/{idFuncionario}', [FuncExameController::class, 'verificarExamesFuncionario']);
 Route::get('/data-validade-exame/{idExame}', [ExameController::class, 'calcularDataValidade']);
 Route::get('/verificar-treinamentos/{idFuncionario}', [FuncTreinamentoController::class, 'verificarTreinamentosFuncionario']);
-Route::get('/data-validade-treinamento/{idTreinamento}', [TreinamentoController::class, 'calcularDataValidade']);+
+Route::get('/data-validade-treinamento/{idTreinamento}', [TreinamentoController::class, 'calcularDataValidade']);
 /*-------------------------------------------------------------------------------------------*/
 //ERROR ROUTES
 Route::get('erro-403', function () {return view('errors.403');})->name('error403');
