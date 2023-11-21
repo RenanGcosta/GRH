@@ -1,6 +1,6 @@
 @extends('layout.menu')
 
-@section('title', 'GRH - Editar Treinamento')
+@section('title', 'Editar Treinamento')
 
 @section('bars')
 @if (Session::has('sucesso'))
@@ -43,8 +43,8 @@
                 <div class="col-6">
                     <label for="tipo_periodo" class="form-label">Tipo de Período</label>
                     <select name="tipo_periodo" class="form-select form-select-lg bg-light">
-                        <option value="ano(s)" {{ $dadosTreinamento->tipo_periodo === 'anos' ? 'selected' : '' }}>Anos</option>
-                        <option value="mês(es)" {{ $dadosTreinamento->tipo_periodo === 'meses' ? 'selected' : '' }}>Meses</option>
+                        <option value="ano(s)" {{ $dadosTreinamento->tipo_periodo === 'ano(s)' ? 'selected' : '' }}>Anos</option>
+                        <option value="mês(es)" {{ $dadosTreinamento->tipo_periodo === 'mês(es)' ? 'selected' : '' }}>Meses</option>
                     </select>
                 </div>
             </div>

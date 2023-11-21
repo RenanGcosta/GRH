@@ -1,6 +1,6 @@
 @extends('layout.menu')
 
-@section('title', 'GRH - Cargos')
+@section('title', 'Cargos')
 
 @section('bars')
     @if (Session::has('sucesso'))

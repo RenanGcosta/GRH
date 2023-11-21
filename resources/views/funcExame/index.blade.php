@@ -1,6 +1,6 @@
 @extends('layout.menu')
 
-@section('title', 'GRH - Exames')
+@section('title', 'Lista de Exames')
 
 @section('bars')
     @if (Session::get('sucesso'))
@@ -12,7 +12,7 @@
             <div class="input-group">
                 <input type="text" name="exame" class="form-control" placeholder="Exame" style="width: 25%;">
                 <input type="text" name="nome" class="form-control" placeholder="Nome" style="width: 30%;">
-                <input type="text" name="data_validade" class="form-control" placeholder="data_validade" style="width: 20%;">
+                <input type="text" name="data_validade" class="form-control" placeholder="Data de Validade" style="width: 20%;">
                 <button class="btn btn-primary" type="submit">Procurar</button>
                 <a href="{{ route('funcExame.index') }}" title="Limpar" class="btn btn-secondary">Limpar</a>
                 <div class="d-flex align-items-center"

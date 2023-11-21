@@ -1,6 +1,6 @@
 @extends('layout.menu')
 
-@section('title', 'GRH - Treinamento')
+@section('title', 'Treinamento')
 
 @section('bars')
     @if (Session::has('sucesso'))

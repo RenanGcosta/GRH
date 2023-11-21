@@ -1,6 +1,6 @@
 @extends('layout.menu')
 
-@section('title', 'GRH - Funcionários')
+@section('title', 'Funcionários')
 
 @section('bars')
     @if (Session::has('sucesso'))
@@ -14,9 +14,9 @@
         <form action="{{ route('funcionario.index') }}" method="get" class="d-flex align-items-center">
             <div class="input-group">
                 <input type="text" name="matricula" class="form-control" placeholder="Matrícula" style="width: 10%;">
-                <input type="text" name="nome" class="form-control" placeholder="Nome" style="width: 28%;">
-                <input type="text" name="CPF" class="form-control" placeholder="CPF" style="width: 13%;">
-                <input type="text" name="cargo" class="form-control" placeholder="Cargo" style="width: 10%;">
+                <input type="text" name="nome" class="form-control" placeholder="Nome" style="width: 23%;">
+                <input type="text" name="CPF" class="form-control" placeholder="CPF" style="width: 20%;">
+                <input type="text" name="cargo" class="form-control" placeholder="Cargo" style="width: 18%;">
                 <button class="btn btn-primary" type="submit">Procurar</button>
                 <a href="{{ route('funcionario.index') }}" title="Limpar" class="btn btn-secondary">Limpar</a>
                 <div class="d-flex align-items-center"

@@ -50,7 +50,7 @@ class FuncionarioController extends Controller
 
         if ($request->filled('cargo')) {
             $query->whereHas('idCargo', function ($query) use ($request) {
-                $query->where('cargo', $request->input('cargo'));
+                $query->where('cargo', 'like', '%' . $request->input('cargo'). '%');
             });
         }
 

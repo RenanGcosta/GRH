@@ -1,6 +1,6 @@
 @extends('layout.menu')
 
-@section('title', 'GRH - Cadastrar Funcionário')
+@section('title', 'Cadastrar Funcionário')
 
 @section('bars')
     <div class="container-fluid shadow bg-white p-4 rounded">

@@ -36,7 +36,7 @@
                         value="{{ date('d/m/Y', strtotime($funcExame->data_validade)) }}" required>
                 </div>
                 <div class="col-3 d-flex align-items-end">
-                    <button type="button" class="btn btn-primary" id="obter-data">Obter Data</button>
+                    <button type="button" class="btn btn-primary" id="obter-data">Atualizar data</button>
                 </div>
             </div>
 

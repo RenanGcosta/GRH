@@ -1,5 +1,5 @@
 @extends('layout.menu')
-@section('title', 'GRH - Editar Cadastro')
+@section('title', 'Editar Cadastro')
 
 @section('bars')
 @if (Session::has('sucesso'))
@@ -108,13 +108,7 @@
                                  value="{{ $dadosFuncionario->matricula }}">
                         </div>
                     </div>
-            <div class="row mb-4 mt-4">
-                <div class="col-5">
-                    <label for="formFile" class="form-label">Foto</label>
-                    <input name="foto" class="form-control" type="file" id="foto">
-                </div>
-            </div>
-            <div class="mb-2">
+            <div class="mb-2 mt-4">
                 <h2>Endereço</h2>
             </div>
             <div class="row mb-4">

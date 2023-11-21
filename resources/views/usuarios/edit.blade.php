@@ -39,8 +39,8 @@
                         <label for="tipo" class="form-label">Tipo</label>
                         <select id="tipo" name="tipo" class="form-select form-select-lg bg-light" value=""
                             required>
-                            <option value="admin">Administrador</option>
-                            <option value="simples">Simples</option>
+                            <option value="admin"{{ $user->tipo === 'admin' ? 'selected' : '' }}>Administrador</option>
+                            <option value="simples"{{ $user->tipo === 'simples' ? 'selected' : '' }}>Simples</option>
                         </select>
                     </div>
                 </div>

@@ -1,7 +1,7 @@
 @extends('layout.menu')
-@section('title', 'GRH - Permissão Negada')
+@section('title', 'Permissão Negada')
 @section('bars')
     <body>
-        <p><strong>Você não tem permissão para acessar essa página.</strong></p>
+        <p><strong>Você não tem permissão para acessar essa página, volte para o menu principal.</strong></p>
     </body>
 @endsection

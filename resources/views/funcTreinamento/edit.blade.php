@@ -36,7 +36,7 @@
                         value="{{ date('d/m/Y', strtotime($funcTreinamento->data_validade)) }}" required>
                 </div>
                 <div class="col-3 d-flex align-items-end">
-                    <button type="button" class="btn btn-primary" id="obter-data">Obter Data</button>
+                    <button type="button" class="btn btn-primary" id="obter-data">Atualizar data</button>
                 </div>
             </div>
 
@@ -54,7 +54,7 @@
             function aplicarMascaraData() {
                 dataValidadeInputs.on('input', function() {
                     const input = $(this);
-                    let value = input.val().replace(/\D/g, ''); // Remover caracteres não numéricos
+                    let value = input.val().replace(/\D/g, '');
 
                     if (value.length > 2) {
                         value = value.slice(0, 2) + '/' + value.slice(2);

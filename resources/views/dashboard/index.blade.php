@@ -1,6 +1,6 @@
 @extends('layout.menu')
 
-@section('title', 'GRH - Dashboard')
+@section('title', 'Dashboard')
 
 @section('bars')
 
