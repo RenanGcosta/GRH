@@ -64,18 +64,20 @@ class TreinamentoController extends Controller
     public function calcularDataValidade($idTreinamento)
     {
         $treinamento = Treinamento::find($idTreinamento);
-
+    
         $tipoPeriodo = $treinamento->tipo_periodo;
         $duracao = $treinamento->duracao;
-
-        $dataAtual = Carbon::now();
-        $dataValidade = $dataAtual;
-
+    
+        $dataAtual = \Carbon\Carbon::now();
+        $dataValidade = $dataAtual->copy();
+    
         if ($tipoPeriodo === 'ano(s)') {
             $dataValidade->addYears($duracao);
         } elseif ($tipoPeriodo === 'mês(es)') {
             $dataValidade->addMonths($duracao);
         }
+
+        $dataValidade->subDay();
 
        // $dataValidade = $dataValidade->subDay();
         return response()->json(['data_validade' => $dataValidade->format('d/m/Y')]);

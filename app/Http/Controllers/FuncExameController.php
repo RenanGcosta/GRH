@@ -38,6 +38,7 @@ class FuncExameController extends Controller
     private function calcularDataValidade($duracao, $tipoPeriodo)
     {
         $dataAtual = Carbon::now();
+        $dataAtual->subDay();
         $dataValidade = null;
 
         if ($tipoPeriodo === 'ano(s)') {

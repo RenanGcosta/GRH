@@ -17,7 +17,8 @@ class DashboardController extends Controller
     public function index()
     {
 
-        $hojeSemHora = Carbon::now()->toDateString();
+        $dataNova = Carbon::now()->toDateString();
+        $hojeSemHora = \Carbon\Carbon::parse($dataNova)->subDay()->toDateString();
 
         $periodo30diasExame = Carbon::now()->addDays(30)->toDateString();
         $exames30 = FuncionarioExame::whereBetween('data_validade', [$hojeSemHora, $periodo30diasExame])
